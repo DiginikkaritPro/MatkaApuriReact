@@ -118,13 +118,13 @@ class questionPage extends Component {
 
 
     if (data.data.kysymysid.length === 0) {
-      this.props.updateAnnetutVastaukset(this.state.AnnetutVastaukset);
+      this.props.updateAnnetutVastaukset(this.state.AnnetutVastaukset, this.props.history);
     } else {
       let question = data.data.kysymysid[0];
       let kysymysTXT = question.KysymysTXT;
       let stateArrayJatko = [];
       
-      this.KysymysIDHistoria.push(qId)
+      this.KysymysIDHistoria.push(-jatkokysymysId)
       for (let i = 0; i < data.data.vastausid.length; i++) {
         let answer = data.data.vastausid[i];
         stateArrayJatko.push(answer);
@@ -136,7 +136,7 @@ class questionPage extends Component {
       });
     }
   };
-
+  //TÄSSÄ FUNKTIOSSA JEKUTETAAN MEIDÄN FUNKTIOITA RÄH RÄH XDDDD
   prevQuestion = () => {
     if(this.KysymysIDHistoria.length === 0){
       console.log('Ei kysymyksiä')
@@ -150,7 +150,21 @@ class questionPage extends Component {
       this.KysymysIDHistoria.pop()
       var kId = this.KysymysIDHistoria.pop()
       console.log('Mennään historiaan ' + kId)
-      this.askQuestion(kId)
+      //HÄHÄÄ JEKKU XD
+      if (kId < 0){
+        this.setState({
+          questionId: this.state.questionId-1
+        }, () => {
+          this.askFollowUpQuestion(-kId)
+        }) 
+      }
+      else{
+        this.setState({
+          questionId: this.state.questionId-1
+        }, () => {
+          this.askQuestion(kId)
+        })
+      }
     }
     
   }
