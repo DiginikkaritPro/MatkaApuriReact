@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0b.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 body {
   width: 100%;
   position: relative;
@@ -14,7 +22,7 @@ header {
   padding: 10px;
   width: 100%;
   text-transform: uppercase;
-  font-family: sans-serif;
+  font-family: "Open Sans";
 }
 
 .App {
@@ -38,7 +46,7 @@ header {
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  width: 100%;
+  width: auto;
   /* card height according to context automatically */
   min-height: 100px;
   overflow: hidden;
@@ -46,7 +54,7 @@ header {
 
 .card-title {
   color: yellow;
-  font-family: sans-serif;
+  font-family: "Open Sans";
   font-weight: bold;
   letter-spacing: 1px;
   font-size: 16px;
@@ -57,6 +65,7 @@ header {
 
 .card-text {
   color: black;
+  font-family: "Open Sans";
   /* font-size: calc(6px + 1vmin); */
   font-size: 16px;
   /* font-weight: bolder; */
@@ -68,7 +77,7 @@ header {
 }
 
 .startPageHeader {
-  font-family: sans-serif;
+  font-family: "Open Sans";
   font-size: 18px;
   font-weight: bold;
   line-height: 24px;
@@ -85,6 +94,7 @@ header {
 
 a {
   color: white;
+  font-family: "Open Sans";
 }
 
 .questionPageLink {
@@ -97,6 +107,7 @@ a {
   margin-top: 30px;
   margin-bottom: 30px;
   text-decoration: underline;
+  font-family: "Open Sans";
 }
 
 .questionText {
@@ -106,33 +117,46 @@ a {
   line-height: 24px;
   float: left;
   margin-bottom: 0.5em;
+  font-family: "Open Sans";
 }
 
 .answerText {
   margin-top: 30px;
   width: 100%;
+  font-family: "Open Sans";
 }
 
 .summaryHeader {
+  text-align: center;
   color: #bb3b77;
-  font-family: sans-serif;
+  font-family: "Open Sans";
   font-size: 18px;
   font-weight: bold;
   line-height: 24px;
   float: left;
   width: 100%;
   margin-bottom: 0.5em;
+
 }
 
 .summaryInfoTx {
+  text-align: center;
   line-height: 22px;
   font-size: 16px;
-  font-family: sans-serif;
+  font-family: "Open Sans";
   color: black;
   text-align: left;
 }
 
 .summaryLink {
+  text-align: center;
   color: #3c8fde;
   text-decoration: underline;
+  font-family: "Open Sans";
+}
+
+.elementBorder {
+  border-style: solid;
+  border-color: white;
+  border-radius: 5px;
 }

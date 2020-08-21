@@ -149,18 +149,22 @@ class questionPage extends Component {
     if(this.KysymysIDHistoria.length >= 2){
       this.KysymysIDHistoria.pop()
       var kId = this.KysymysIDHistoria.pop()
+      //this.state.AnnetutVastaukset.pop()
+      this.state.AnnetutVastaukset.pop()
       console.log('Mennään historiaan ' + kId)
       //HÄHÄÄ JEKKU XD
       if (kId < 0){
         this.setState({
-          questionId: this.state.questionId-1
+          questionId: this.state.questionId-1,
+          AnnetutVastaukset: this.state.AnnetutVastaukset
         }, () => {
           this.askFollowUpQuestion(-kId)
         }) 
       }
       else{
         this.setState({
-          questionId: this.state.questionId-1
+          questionId: this.state.questionId-1,
+          AnnetutVastaukset: this.state.AnnetutVastaukset
         }, () => {
           this.askQuestion(kId)
         })

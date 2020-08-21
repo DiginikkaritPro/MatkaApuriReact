@@ -47,7 +47,7 @@ class summaryPage extends Component {
     let data = await response.json();
 
     if (data.data == null || data.data.yhteenvetostack.length === 0) {
-      //TODO: virheen tarkistus
+      alert('Tietokanta viallinen tai tietokantayhteys katkennut')
     } else {
       let Otsikko = "";
       let InfoTXT = "";
@@ -70,10 +70,6 @@ class summaryPage extends Component {
         InfoTXT: [...prevState.InfoTXT, InfoTXT],
         Linkki: [...prevState.Linkki, Linkki],
       }));
-
-      console.log(this.state.Otsikko);
-      console.log(this.state.InfoTXT);
-      console.log(this.state.Linkki);
     }
   };
 
@@ -85,11 +81,20 @@ class summaryPage extends Component {
         }
         else{
         return (
-          <div className="card-body">
+          <div className="card-body elementBorder" >
+          <p className="summaryHeader">
           {e}
-          <p className="card-text"></p>
+          </p>
+          <br/>
+          <p className="card-text">
+          <div className="summaryInfoTxt">
           {this.state.InfoTXT[idx]}
+          </div>
+          <br/>
+          <div className="summaryLink">
           {this.state.Linkki[idx]}
+          </div>
+          </p>
           </div>
         )}
       }  
