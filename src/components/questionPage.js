@@ -14,7 +14,7 @@ class questionPage extends Component {
       AnnetutVastaukset: [],
     };
   }
-
+  KysymysIDHistoria = []
   componentDidMount() {
     this.askQuestion(this.state.questionId);
   }
@@ -23,7 +23,7 @@ class questionPage extends Component {
     this.state.AnnetutVastaukset.push(VastausID);
     console.log(this.state.AnnetutVastaukset);
     if (JatkokysymysID) {
-      this.askFollowUpQuestion(JatkokysymysID);
+      this.askFollowUpQuestion(JatkokysymysID);  
     } else {
       this.setState(
         {
@@ -64,7 +64,6 @@ class questionPage extends Component {
     });
 
     let data = await response.json();
-    console.log(data);
 
     if (data.data.kysymysid.length === 0) {
       this.props.updateAnnetutVastaukset(this.state.AnnetutVastaukset, this.props.history);
@@ -73,6 +72,8 @@ class questionPage extends Component {
       let kysymysTXT = question.KysymysTXT;
       let stateArray = [];
 
+      this.KysymysIDHistoria.push(qId)
+      console.log('KysymysIDHistoria:' + this.KysymysIDHistoria)
       for (let i = 0; i < data.data.vastausid.length; i++) {
         let answer = data.data.vastausid[i];
         stateArray.push(answer);
@@ -114,7 +115,7 @@ class questionPage extends Component {
     });
 
     let data = await response.json();
-    console.log(data);
+
 
     if (data.data.kysymysid.length === 0) {
       this.props.updateAnnetutVastaukset(this.state.AnnetutVastaukset);
@@ -122,7 +123,8 @@ class questionPage extends Component {
       let question = data.data.kysymysid[0];
       let kysymysTXT = question.KysymysTXT;
       let stateArrayJatko = [];
-
+      
+      this.KysymysIDHistoria.push(qId)
       for (let i = 0; i < data.data.vastausid.length; i++) {
         let answer = data.data.vastausid[i];
         stateArrayJatko.push(answer);
@@ -134,6 +136,24 @@ class questionPage extends Component {
       });
     }
   };
+
+  prevQuestion = () => {
+    if(this.KysymysIDHistoria.length === 0){
+      console.log('Ei kysymyksiä')
+      return
+    }
+    if(this.KysymysIDHistoria.length === 1){
+      console.log('Ei ole edellistä kysymystä')
+      return
+    }
+    if(this.KysymysIDHistoria.length >= 2){
+      this.KysymysIDHistoria.pop()
+      var kId = this.KysymysIDHistoria.pop()
+      console.log('Mennään historiaan ' + kId)
+      this.askQuestion(kId)
+    }
+    
+  }
 
   handleChange = (e) => {
     e.target.checked = false
@@ -152,9 +172,10 @@ class questionPage extends Component {
             <div className="card">
               <Header />
               <div className="card-body">
-                <a className="linkQuestionPage" href="/">
+                {/* <a className="linkQuestionPage" hidden={false} onClick={this.prevQuestion}>
                   TAKAISIN EDELLISEEN
-                </a>
+                </a> */}
+                <button onClick={this.prevQuestion}> GO BACK </button>
                 <br />
                 <br />
                 <p className="card-text">

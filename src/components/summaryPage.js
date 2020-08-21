@@ -80,6 +80,10 @@ class summaryPage extends Component {
   render() {
     let Yhteenveto = () =>
       Array.from(this.state.Otsikko).map((e, idx) => {
+        if (e === ""){
+          return <div></div>
+        }
+        else{
         return (
           <div className="card-body">
           {e}
@@ -88,7 +92,7 @@ class summaryPage extends Component {
           {this.state.Linkki[idx]}
           </div>
         )}
-          
+      }  
         );
      
     return (
