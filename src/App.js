@@ -17,11 +17,10 @@ class App extends Component {
   updateAnnetutVastaukset = (annVas, history) => {
     this.setState({
       AnnetutVastaukset: annVas
+    }, () => {
+      history.push("/summarypage");
+      this.summaryref.getListOfSummaries();
     })
-    console.log(this.state.AnnetutVastaukset)
-    //const history = useHistory();
-    history.push("/summarypage");
-    this.summaryref.getListOfSummaries();
   }
 
   render() {
