@@ -17,10 +17,9 @@ class App extends Component {
   updateAnnetutVastaukset = (annVas, history) => {
     this.setState({
       AnnetutVastaukset: annVas
-    }, () => {
-      history.push("/summarypage");
-      this.summaryref.getListOfSummaries();
     })
+    history.push("/summarypage");
+    this.summaryref.getListOfSummaries();
   }
 
   render() {
