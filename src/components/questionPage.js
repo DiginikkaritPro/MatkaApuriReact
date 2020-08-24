@@ -91,6 +91,12 @@ class questionPage extends Component {
 
       let data = await response.json();
 
+      if(this.state.questionId >= 2){
+        document.getElementById("backbtn").hidden = false
+      } else{
+        document.getElementById("backbtn").hidden = true
+      }
+
       if (data.data.kysymysid.length === 0) {
         if (this.state.questionId + 1 <= this.state.questionIdLength) {
           this.state.questionId++;
@@ -225,7 +231,7 @@ class questionPage extends Component {
             <div className="card">
               <Header />
               <div className="card-body">
-                <button className="btn btn-link" onClick={this.prevQuestion}> {"<- Palaa edelliseen"} </button>
+                <button id="backbtn" hidden="true" className="btn btn-link" onClick={this.prevQuestion}> {"<- Palaa edelliseen"} </button>
                 <br />
                 <br />
                 <p className="card-text">
