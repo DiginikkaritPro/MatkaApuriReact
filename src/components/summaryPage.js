@@ -13,7 +13,7 @@ class summaryPage extends Component {
       Linkki: [],
     };
   }
-
+  //Haetaan vastausidt yhteenvetoa varten (tuotu propseina App.js statesta)
   getListOfSummaries = async () => {
     let vastausId = this.props.annetutVastaukset;
 
@@ -22,7 +22,7 @@ class summaryPage extends Component {
       await this.getSummary(id);
     }
   };
-
+  //Tulostetaan yhteenveto hakemalla yhteenvetoidt getSummaryId funktiolla
   getSummary = async (vastausId) => {
     let yhteenvetoId = await getSummaryId(vastausId);
 
@@ -72,7 +72,7 @@ class summaryPage extends Component {
       }));
     }
   };
-
+  //Reactin render metodi jossa tulosteen yhteenveto elementit mapattynä Otsikon indexin perusteella
   render() {
     let Yhteenveto = () =>
       Array.from(this.state.Otsikko).map((e, idx) => {

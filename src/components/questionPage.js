@@ -9,6 +9,7 @@ class questionPage extends Component {
     super(props);
     this.state = {
       questionId: 1,
+      questionIdLength: 0,
       KysymysTXT: "",
       Vastaukset: [],
       AnnetutVastaukset: [],
@@ -16,14 +17,38 @@ class questionPage extends Component {
   }
   KysymysIDHistoria = []
   componentDidMount() {
+    this.getQidLength();
+
     this.askQuestion(this.state.questionId);
   }
-
+  //Haetaan kysymystaulun pituus stateen
+  getQidLength = async () => {
+    let response = await fetch(GRAPHQL_SERVER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        query: `query {
+                    kysymys {
+                        KysymysID
+                    }
+                }`,
+      }),
+    });
+    let data = await response.json();
+    
+    this.setState({
+      questionIdLength: data.data.kysymys.length
+    })
+  }
+  //Vastausvaihtoehdon valinta funktio
   buttonClicked = (VastausID, JatkokysymysID) => {
     this.state.AnnetutVastaukset.push(VastausID);
     console.log(this.state.AnnetutVastaukset);
     if (JatkokysymysID) {
-      this.askFollowUpQuestion(JatkokysymysID);  
+          this.askFollowUpQuestion(JatkokysymysID);  
     } else {
       this.setState(
         {
@@ -36,56 +61,67 @@ class questionPage extends Component {
     }
       
   };
-
+  //Kysymys silmukka jota toistetaan niin kauan kunnes ollaan ajettu kysymysten length loppuun
   askQuestion = async (qId) => {
-    let response = await fetch(GRAPHQL_SERVER_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        query: `query getQuestionAndAnswers($id: String!) {
-                    kysymysid: kysymysIdEiJatko(KysymysID: $id) {
-                        KysymysID
-                        KysymysTXT
-                        KysymysINFO
-                        JatkokysymysID
-                    }
-                    vastausid(KysymysID: $id) {
-                        VastausID
-                        VastausTXT
-                        KysymysID
-                        JatkokysymysID
-                    }
-                }`,
-        variables: { id: `${qId}` },
-      }),
-    });
-
-    let data = await response.json();
-
-    if (data.data.kysymysid.length === 0) {
-      this.props.updateAnnetutVastaukset(this.state.AnnetutVastaukset, this.props.history);
-    } else {
-      let question = data.data.kysymysid[0];
-      let kysymysTXT = question.KysymysTXT;
-      let stateArray = [];
-
-      this.KysymysIDHistoria.push(qId)
-      console.log('KysymysIDHistoria:' + this.KysymysIDHistoria)
-      for (let i = 0; i < data.data.vastausid.length; i++) {
-        let answer = data.data.vastausid[i];
-        stateArray.push(answer);
-      }
-
-      this.setState({
-        KysymysTXT: kysymysTXT,
-        Vastaukset: stateArray,
+    while (true) {
+      let response = await fetch(GRAPHQL_SERVER_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          query: `query getQuestionAndAnswers($id: String!) {
+                      kysymysid: kysymysIdEiJatko(KysymysID: $id) {
+                          KysymysID
+                          KysymysTXT
+                          KysymysINFO
+                          JatkokysymysID
+                      }
+                      vastausid(KysymysID: $id) {
+                          VastausID
+                          VastausTXT
+                          KysymysID
+                          JatkokysymysID
+                      }
+                  }`,
+          variables: { id: `${qId}` },
+        }),
       });
+
+      let data = await response.json();
+
+      if (data.data.kysymysid.length === 0) {
+        if (this.state.questionId + 1 <= this.state.questionIdLength) {
+          this.state.questionId++;
+          qId = this.state.questionId;
+          // Jatketaan fetchiin.
+        } else {
+          this.props.updateAnnetutVastaukset(this.state.AnnetutVastaukset, this.props.history);
+          return;
+        }
+        
+      } else {
+        let question = data.data.kysymysid[0];
+        let kysymysTXT = question.KysymysTXT;
+        let stateArray = [];
+
+        this.KysymysIDHistoria.push(qId)
+        
+        for (let i = 0; i < data.data.vastausid.length; i++) {
+          let answer = data.data.vastausid[i];
+          stateArray.push(answer);
+        }
+
+        this.setState({
+          KysymysTXT: kysymysTXT,
+          Vastaukset: stateArray,
+        });
+        return;
+      }
     }
   };
-
+  //Jatkokysymys funktio jota kutsutaan mikäli vastauksella on jatkokysymysid
   askFollowUpQuestion = async (jatkokysymysId) => {
     let qId = await convertQuestionId(jatkokysymysId);
 
@@ -136,23 +172,22 @@ class questionPage extends Component {
       });
     }
   };
-  //TÄSSÄ FUNKTIOSSA JEKUTETAAN MEIDÄN FUNKTIOITA RÄH RÄH XDDDD
+  //Toiminnalisuus funktio "Palaa takaisin" napille
   prevQuestion = () => {
     if(this.KysymysIDHistoria.length === 0){
-      console.log('Ei kysymyksiä')
+      alert('Ei kysymyksiä')
       return
     }
     if(this.KysymysIDHistoria.length === 1){
-      console.log('Ei ole edellistä kysymystä')
+      alert('Ei ole edellistä kysymystä')
       return
     }
     if(this.KysymysIDHistoria.length >= 2){
       this.KysymysIDHistoria.pop()
       var kId = this.KysymysIDHistoria.pop()
-      //this.state.AnnetutVastaukset.pop()
       this.state.AnnetutVastaukset.pop()
-      console.log('Mennään historiaan ' + kId)
-      //HÄHÄÄ JEKKU XD
+     
+      
       if (kId < 0){
         this.setState({
           questionId: this.state.questionId-1,
@@ -176,11 +211,11 @@ class questionPage extends Component {
   handleChange = (e) => {
     e.target.checked = false
   }
-
+  //Reactin render metodi jossa mapataan Vastaukset arraystä vastaukset radionappeihin
   render() {
       let VastausList = () =>
       Array.from(this.state.Vastaukset).map((e, idx) => {
-        return <div><div className="custom-control custom-radio"><input type="radio" name="radioinput" id={idx} className="custom-control-input" onChange={this.handleChange} onClick={() => {this.buttonClicked(e.VastausID, e.JatkokysymysID)}}/><label className="custom-control-label" for={idx}>{e.VastausTXT}</label></div></div>
+        return <div><div className="radiotest"><input type="radio" name="radioinput" id={idx} className="radiocss" onChange={this.handleChange} onClick={() => {this.buttonClicked(e.VastausID, e.JatkokysymysID)}}/><label for={idx}>{e.VastausTXT}</label></div></div>
       });
     return (
       <div className="container">
@@ -190,10 +225,7 @@ class questionPage extends Component {
             <div className="card">
               <Header />
               <div className="card-body">
-                {/* <a className="linkQuestionPage" hidden={false} onClick={this.prevQuestion}>
-                  TAKAISIN EDELLISEEN
-                </a> */}
-                <button onClick={this.prevQuestion}> GO BACK </button>
+                <button className="btn btn-link" onClick={this.prevQuestion}> {"<- Palaa edelliseen"} </button>
                 <br />
                 <br />
                 <p className="card-text">

@@ -45,8 +45,9 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   font-size: calc(10px + 2vmin);
-  width: auto;
+  width: 100%;
   /* card height according to context automatically */
   min-height: 100px;
   overflow: hidden;
@@ -69,7 +70,7 @@ header {
   /* font-size: calc(6px + 1vmin); */
   font-size: 16px;
   /* font-weight: bolder; */
-  text-align: left;
+  text-align: center;
 }
 
 .startpage {
@@ -159,4 +160,9 @@ a {
   border-style: solid;
   border-color: white;
   border-radius: 5px;
+  width: 100%;
+}
+
+.radiocss {
+  outline: none;
 }

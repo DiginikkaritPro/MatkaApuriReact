@@ -1,4 +1,7 @@
+//Api rajapinnan URL
 const GRAPHQL_SERVER_URL = 'http://localhost:3000/api/graphql';
+
+//YhteenvetoIDn haku funktio vastausidn perusteella
 let getSummaryId = async (vastausId) => {
     let response = await fetch(GRAPHQL_SERVER_URL, {
         method: 'POST',
@@ -28,7 +31,7 @@ let getSummaryId = async (vastausId) => {
     }
 }
 
-
+//JatkokysymysIDn muunto kysymysidksi
 let convertQuestionId = async (jatkokysymysId) => {
     let response = await fetch(GRAPHQL_SERVER_URL, {
         method: 'POST',
