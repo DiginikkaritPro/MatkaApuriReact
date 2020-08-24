@@ -238,8 +238,10 @@ class questionPage extends Component {
                   {this.state.KysymysTXT}
                   <br />
                   <br />
+                  <div className="btn-group-vertical">
                   {/* radios  */}
                   {VastausList()}
+                  </div>
                 </p>
               </div>{" "}
               {/* card-body */}
