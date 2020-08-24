@@ -13,16 +13,21 @@ body {
   padding: 0px;
   font-family: sans-serif;
   display: block;
+  background-image: url(./pic/Stora_Enso_Oulu.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 header {
-  background: #dc0368;
-  color: yellow;
+  background: #282c34;
+  /* background: #dc0368; */
+  color: rgb(45,170,55);
   text-align: center;
   padding: 10px;
   width: 100%;
   text-transform: uppercase;
   font-family: "Open Sans";
+  border: 1px solid rgb(45,170,55);
 }
 
 .App {
@@ -39,7 +44,8 @@ header {
 
 .card {
   margin-top: 20px;
-  background-color: lightgrey;
+  /* background-color: rgb(45,65,75); */
+  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -54,7 +60,7 @@ header {
 }
 
 .card-title {
-  color: yellow;
+  color: rgb(45,170,55);
   font-family: "Open Sans";
   font-weight: bold;
   letter-spacing: 1px;
@@ -65,7 +71,7 @@ header {
 }
 
 .card-text {
-  color: black;
+  color: rgb(210,220,225);
   font-family: "Open Sans";
   /* font-size: calc(6px + 1vmin); */
   font-size: 16px;
@@ -74,7 +80,7 @@ header {
 }
 
 .startpage {
-  background-color: #bb3b77;
+  background-color: #282c34;
 }
 
 .startPageHeader {
@@ -88,21 +94,31 @@ header {
 }
 
 .btn-light {
-  background-color: #bb3b77;
-  border-color: white;
-  color: white;
+  background-color: #282c34;
+  border-color: rgb(45,170,55);
+  color: rgb(45,170,55);
+}
+
+.btn-light:hover {
+  background-color: rgb(45,170,55);
+  border-color: #282c34;
+  color: #282c34;
 }
 
 a {
-  color: white;
+  color: rgb(45,170,55);
   font-family: "Open Sans";
+}
+
+.btn-link, .btn-link:hover {
+  color: rgb(0,175,215);
 }
 
 .questionPageLink {
   display: block;
   cursor: pointer;
   text-transform: uppercase;
-  color: #3c8fde;
+  color: rgb(0,175,215);
   font-size: 12px;
   letter-spacing: 0px;
   margin-top: 30px;
@@ -112,7 +128,7 @@ a {
 }
 
 .questionText {
-  color: #bb3b77;
+  color: rgb(45,170,55);
   font-size: 18px;
   font-weight: bold;
   line-height: 24px;
@@ -129,7 +145,7 @@ a {
 
 .summaryHeader {
   text-align: center;
-  color: #bb3b77;
+  color: rgb(45,170,55);
   font-family: "Open Sans";
   font-size: 18px;
   font-weight: bold;
@@ -151,14 +167,14 @@ a {
 
 .summaryLink {
   text-align: center;
-  color: #3c8fde;
+  color: rgb(0,175,215);
   text-decoration: underline;
   font-family: "Open Sans";
 }
 
 .elementBorder {
   border-style: solid;
-  border-color: white;
+  border-color: rgb(45,170,55);
   border-radius: 5px;
   width: 100%;
 }
