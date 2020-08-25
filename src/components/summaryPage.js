@@ -4,13 +4,14 @@ import {
   getSummaryId,
   GRAPHQL_SERVER_URL,
 } from "../functions/DatabaseHandlingFunctions";
+
 class summaryPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       Otsikko: [],
       InfoTXT: [],
-      Linkki: [],
+      Linkki: []
     };
   }
   //Haetaan vastausidt yhteenvetoa varten (tuotu propseina App.js statesta)
@@ -22,6 +23,19 @@ class summaryPage extends Component {
       await this.getSummary(id);
     }
   };
+
+  headerClicked = (idx) =>{
+    let id = `hideableElement${idx}`;
+    let id2 = `span${idx}`;
+    if (document.getElementById(id).hidden) {
+      document.getElementById(id).hidden = false;
+      document.getElementById(id2).innerHTML = "^";
+    } else {
+      document.getElementById(id).hidden = true;
+      document.getElementById(id2).innerHTML = "v";
+    }
+  }
+
   //Tulostetaan yhteenveto hakemalla yhteenvetoidt getSummaryId funktiolla
   getSummary = async (vastausId) => {
     let yhteenvetoId = await getSummaryId(vastausId);
@@ -80,20 +94,28 @@ class summaryPage extends Component {
           return <div></div>
         }
         else{
+          var Linkit = this.state.Linkki[idx]
+          var LinkkiArray = Linkit.split(/,/)
+          let LinkitArr = []
+          
+          
+          LinkkiArray.forEach(element => {
+          LinkitArr.push(<p><a className="summaryLink" rel="noopener noreferrer" target="_blank" href={element}>
+            {element}
+          </a></p>)
+          });
         return (
           <div className="card-body elementBorder" >
-          <p className="summaryHeader">
-          {e}
+          <p className="summaryHeader" onClick={() => {this.headerClicked(idx)}}>
+          {e} <span className="span" id={`span${idx}`}>v</span>
           </p>
           <br/>
-          <p className="card-text">
+          <p className="card-text" hidden={true} id={`hideableElement${idx}`}>
           <div className="summaryInfoTxt">
           {this.state.InfoTXT[idx]}
           </div>
           <br/>
-          <div className="summaryLink">
-          {this.state.Linkki[idx]}
-          </div>
+          {LinkitArr}
           </p>
           </div>
         )}

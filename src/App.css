@@ -16,6 +16,9 @@ body {
   background-image: url(./pic/Stora_Enso_Oulu.jpg);
   background-size: cover;
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+  overflow: auto;
 }
 
 header {
@@ -42,6 +45,7 @@ header {
   }
 } */
 
+
 .card {
   margin-top: 20px;
   /* background-color: rgb(45,65,75); */
@@ -57,6 +61,9 @@ header {
   /* card height according to context automatically */
   min-height: 100px;
   overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-title {
@@ -77,6 +84,7 @@ header {
   font-size: 16px;
   /* font-weight: bolder; */
   text-align: center;
+
 }
 
 .startpage {
@@ -181,4 +189,11 @@ a {
 
 .radiocss {
   outline: none;
+}
+
+.span {
+  margin-left: 50px;
+  text-align: right;
+  justify-content: right;
+  color: lightgray;
 }

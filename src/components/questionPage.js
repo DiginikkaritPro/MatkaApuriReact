@@ -217,11 +217,11 @@ class questionPage extends Component {
   handleChange = (e) => {
     e.target.checked = false
   }
-  //Reactin render metodi jossa mapataan Vastaukset arraystä vastaukset radionappeihin
+  //Reactin render metodi jossa mapataan Vastaukset arraystä vastaukset radionappeihin indexin perusteella
   render() {
       let VastausList = () =>
       Array.from(this.state.Vastaukset).map((e, idx) => {
-        return <div><div className="radiotest"><input type="radio" name="radioinput" id={idx} className="radiocss" onChange={this.handleChange} onClick={() => {this.buttonClicked(e.VastausID, e.JatkokysymysID)}}/><label for={idx}>{e.VastausTXT}</label></div></div>
+        return <div><div className="radiotest"><input type="radio" name="radioinput" id={idx} className="radiocss" onChange={this.handleChange} onClick={() => {this.buttonClicked(e.VastausID, e.JatkokysymysID)}}/><label htmlFor={idx}>{e.VastausTXT}</label></div></div>
       });
     return (
       <div className="container">
@@ -231,7 +231,7 @@ class questionPage extends Component {
             <div className="card">
               <Header />
               <div className="card-body">
-                <button id="backbtn" hidden="true" className="btn btn-link" onClick={this.prevQuestion}> {"<- Palaa edelliseen"} </button>
+                <button id="backbtn" hidden={true} className="btn btn-link" onClick={this.prevQuestion}> {"<- Palaa edelliseen"} </button>
                 <br />
                 <br />
                 <p className="card-text">
