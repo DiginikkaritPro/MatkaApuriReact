@@ -18,7 +18,7 @@ class questionPage extends Component {
   KysymysIDHistoria = []
   componentDidMount() {
     this.getQidLength();
-
+    this.getLastQuestionId();
     this.askQuestion(this.state.questionId);
   }
   //Haetaan kysymystaulun pituus stateen
@@ -61,6 +61,29 @@ class questionPage extends Component {
     }
       
   };
+
+  //Tällä haetaan viimeinen kysymysid parsetaan se int muotoon ja käsitellään
+  getLastQuestionId = async () => {
+    let res = await fetch(GRAPHQL_SERVER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        query: `query getLastQID{
+          kysymyslastid {
+            KysymysID
+          }
+        }`,
+      }),
+    });
+
+    let data = await res.json();
+    console.log(data.data.kysymyslastid[0].KysymysID)
+    let uusidata = parseInt(data.data.kysymyslastid[0].KysymysID) + 1
+    console.log(uusidata)
+  }
   //Kysymys silmukka jota toistetaan niin kauan kunnes ollaan ajettu kysymysten length loppuun
   askQuestion = async (qId) => {
     while (true) {

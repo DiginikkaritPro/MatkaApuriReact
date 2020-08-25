@@ -18,8 +18,10 @@ const typeDefs = gql`
     jatkokysymys: [Kysymys]
     jatkokysymysid(JatkokysymysID: String!): [Kysymys]
     kysymys: [Kysymys]
+    kysymyslastid: [Kysymys]
     kysymysid(KysymysID: String!): [Kysymys]
     vastaus: [Vastaus]
+    vastauslastid: [Vastaus]
     vastausid(KysymysID: String!): [Vastaus]
     yhteenveto: [Yhteenveto]
     yhteenvetoid(VastausID: String!): [Yhteenveto]
@@ -112,6 +114,13 @@ const resolvers = {
 
     kysymys: async () => {
       return arrayQuery("Kysymys");
+    },
+
+    kysymyslastid: async () => {
+      let kysymykset = await arrayQuery("Kysymys");
+
+      let viimKys = kysymykset[kysymykset.length -1]
+      return [viimKys]
     },
 
     kysymysid: async (parent, args, context, info) => {
