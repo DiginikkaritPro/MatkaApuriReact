@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Header from "./header";
+import Footer from './footer';
 import {
   getSummaryId,
   GRAPHQL_SERVER_URL,
@@ -29,10 +30,32 @@ class summaryPage extends Component {
     let id2 = `span${idx}`;
     if (document.getElementById(id).hidden) {
       document.getElementById(id).hidden = false;
-      document.getElementById(id2).innerHTML = "^";
+      
     } else {
       document.getElementById(id).hidden = true;
-      document.getElementById(id2).innerHTML = "v";
+      
+    }
+  }
+
+  hideOrShowArrow = (idx) => {
+    let id = `hideableElement${idx}`;
+    const icon1 = document.getElementById('icon1_' + idx);
+    const icon2 = document.getElementById('icon2_' + idx);
+
+    if (icon1.style.visibility === 'hidden') {
+      icon1.style.visibility = 'visible';
+      icon2.style.visibility = 'hidden';
+    } else {
+      icon1.style.visibility = 'hidden';
+      icon2.style.visibility = 'visible';
+    }
+
+    if (document.getElementById(id).hidden) {
+      document.getElementById(id).hidden = false;
+      
+    } else {
+      document.getElementById(id).hidden = true;
+      
     }
   }
 
@@ -106,8 +129,18 @@ class summaryPage extends Component {
           });
         return (
           <div className="card-body elementBorder" >
-          <p className="summaryHeader" onClick={() => {this.headerClicked(idx)}}>
-          {e} <span className="span" id={`span${idx}`}>v</span>
+          <p className="summaryHeader" onClick={() => {this.hideOrShowArrow(idx)}}>
+          {e}&nbsp;&nbsp; 
+          <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-chevron-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <g id={'icon1_' + idx} visibility='visible'>
+              <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              <path fillRule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
+            </g>
+            <g id={'icon2_' + idx} visibility='hidden'>
+              <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              <path fillRule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
+            </g>
+          </svg>
           </p>
           <br/>
           <p className="card-text" hidden={true} id={`hideableElement${idx}`}>
@@ -132,6 +165,9 @@ class summaryPage extends Component {
                   <Header />
                   {Yhteenveto()}
                     {/* card-body */}
+                  
+                  <Footer />
+                  
                   </div>
                   {/* card */}
                 </div>
@@ -139,8 +175,9 @@ class summaryPage extends Component {
                 <div className="col-sm"></div>
               </div>
               {/* row */}
+
             </div>
-          </div>
+      </div>
       
     );
   }

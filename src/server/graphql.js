@@ -16,6 +16,7 @@ const typeDefs = gql`
     info: [Info]
     infoid(YhteenvetoID: String!): [Info]
     jatkokysymys: [Kysymys]
+    jatkokysymyslastid: [Kysymys]
     jatkokysymysid(JatkokysymysID: String!): [Kysymys]
     kysymys: [Kysymys]
     kysymyslastid: [Kysymys]
@@ -27,6 +28,10 @@ const typeDefs = gql`
     yhteenvetoid(VastausID: String!): [Yhteenveto]
     yhteenvetostack(YhteenvetoID: String!): [Yhteenvetostack]
     kysymysIdEiJatko(KysymysID: String!): [Kysymys]
+  }
+
+  type Mutation {
+    luokysymys(KysymysID: String!, KysymysTXT: String!, KysymysINFO: String): Kysymys
   }
 
   type Info {
@@ -95,6 +100,19 @@ const idQuery = async (collectionName, args, idName) => {
 };
 
 const resolvers = {
+  Mutation: {
+    luokysymys: async (parent, args) => {
+      const kysymysObj = {
+        KysymysID: args.KysymysID,
+        KysymysTXT: args.KysymysTXT,
+        KysymysINFO: args.KysymysINFO
+      }
+      const collectionName = 'Kysymys';
+      let res = await db.collection(collectionName).insertOne(kysymysObj)
+      console.log(res)
+      return kysymysObj
+    }
+  },
   Query: {
     info: async () => {
       return arrayQuery("Info");
@@ -106,6 +124,13 @@ const resolvers = {
 
     jatkokysymys: async () => {
       return arrayQuery("Kysymys");
+    },
+
+    jatkokysymyslastid: async () => {
+      let jatkokysymykset = await arrayQuery("Kysymys");
+
+      let viimJKys = jatkokysymykset[jatkokysymykset.length -1]
+      return [viimJKys]
     },
 
     jatkokysymysid: async (parent, args, context, info) => {
@@ -129,6 +154,13 @@ const resolvers = {
 
     vastaus: async () => {
       return arrayQuery("Vastaukset");
+    },
+
+    vastauslastid: async () => {
+      let vastaukset = await arrayQuery("Vastaukset");
+
+      let viimVas = vastaukset[vastaukset.length -1]
+      return [viimVas]
     },
 
     vastausid: async (parent, args, context, info) => {
@@ -175,6 +207,7 @@ const resolvers = {
     }
 
   },
+  
 };
 
 const server = new ApolloServer({

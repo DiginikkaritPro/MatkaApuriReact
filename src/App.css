@@ -20,17 +20,23 @@ body {
   background-position: center center;
   overflow: auto;
 }
-
+h1 {
+  font-weight: bolder;
+}
 header {
-  background: #282c34;
+  background: rgb(225,0,105);
   /* background: #dc0368; */
-  color: rgb(45,170,55);
+  color: rgb(255, 255, 255);
+  font-weight: 700;
   text-align: center;
   padding: 10px;
   width: 100%;
   text-transform: uppercase;
   font-family: "Open Sans";
-  border: 1px solid rgb(45,170,55);
+}
+footer{
+  justify-content: right;
+  text-align: right;
 }
 
 .App {
@@ -45,14 +51,11 @@ header {
   }
 } */
 
-
 .card {
   margin-top: 20px;
   /* background-color: rgb(45,65,75); */
-  background-color: #282c34;
+  background-color: #ffffff;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -71,14 +74,14 @@ header {
   font-family: "Open Sans";
   font-weight: bold;
   letter-spacing: 1px;
-  font-size: 16px;
+  font-size: 18px;
   height: 22px;
   line-height: 22px;
   text-align: left;
 }
 
 .card-text {
-  color: rgb(210,220,225);
+  color: black;
   font-family: "Open Sans";
   /* font-size: calc(6px + 1vmin); */
   font-size: 16px;
@@ -88,7 +91,7 @@ header {
 }
 
 .startpage {
-  background-color: #282c34;
+  background-color: #ffffff;
 }
 
 .startPageHeader {
@@ -102,24 +105,21 @@ header {
 }
 
 .btn-light {
-  background-color: #282c34;
-  border-color: rgb(45,170,55);
-  color: rgb(45,170,55);
+  background: rgb(225,0,105);
+  color: white;
 }
 
-.btn-light:hover {
-  background-color: rgb(45,170,55);
-  border-color: #282c34;
-  color: #282c34;
-}
 
 a {
-  color: rgb(45,170,55);
+  color: rgb(255, 255, 255);
   font-family: "Open Sans";
 }
+a:hover{
+  color: rgb(225,0,105);
+}
 
-.btn-link, .btn-link:hover {
-  color: rgb(0,175,215);
+.btn-link:hover {
+  color: rgb(225,0,105);
 }
 
 .questionPageLink {
@@ -153,7 +153,7 @@ a {
 
 .summaryHeader {
   text-align: center;
-  color: rgb(45,170,55);
+  color: black;
   font-family: "Open Sans";
   font-size: 18px;
   font-weight: bold;
@@ -170,7 +170,6 @@ a {
   font-size: 16px;
   font-family: "Open Sans";
   color: black;
-  text-align: left;
 }
 
 .summaryLink {
@@ -181,19 +180,32 @@ a {
 }
 
 .elementBorder {
-  border-style: solid;
-  border-color: rgb(45,170,55);
+  
+  border-color: rgb(210,220,225);
   border-radius: 5px;
   width: 100%;
+  border-style: solid;
+  border-width: 2px;
 }
 
 .radiocss {
   outline: none;
 }
+.radiotest:hover {
+  background-color: rgb(225,0,105);
+  color: white;
+}
 
-.span {
-  margin-left: 50px;
-  text-align: right;
-  justify-content: right;
-  color: lightgray;
+.modal-content {
+  color: rgb(45,65,75);
+  background-color:white;
+}
+
+.modal-header, .modal-footer {
+  background-color: rgb(225,0,105);
+  color: white;
+}
+
+.bi-info-circle {
+  color: rgb(225,0,105);
 }

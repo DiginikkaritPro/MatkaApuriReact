@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from 'react-router-dom';
 import Header from "./header";
 import {GRAPHQL_SERVER_URL, convertQuestionId} from '../functions/DatabaseHandlingFunctions'
+import {getLastQuestionId, getLastAnswerId, getLastFollowUpQuestionId, insertNewQuestion} from '../functions/ClientFunctions'
 
 
 class questionPage extends Component {
@@ -18,7 +19,10 @@ class questionPage extends Component {
   KysymysIDHistoria = []
   componentDidMount() {
     this.getQidLength();
-    this.getLastQuestionId();
+    //getLastQuestionId();
+    //getLastAnswerId();
+    //getLastFollowUpQuestionId();
+    //insertNewQuestion();
     this.askQuestion(this.state.questionId);
   }
   //Haetaan kysymystaulun pituus stateen
@@ -62,28 +66,6 @@ class questionPage extends Component {
       
   };
 
-  //Tällä haetaan viimeinen kysymysid parsetaan se int muotoon ja käsitellään
-  getLastQuestionId = async () => {
-    let res = await fetch(GRAPHQL_SERVER_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        query: `query getLastQID{
-          kysymyslastid {
-            KysymysID
-          }
-        }`,
-      }),
-    });
-
-    let data = await res.json();
-    console.log(data.data.kysymyslastid[0].KysymysID)
-    let uusidata = parseInt(data.data.kysymyslastid[0].KysymysID) + 1
-    console.log(uusidata)
-  }
   //Kysymys silmukka jota toistetaan niin kauan kunnes ollaan ajettu kysymysten length loppuun
   askQuestion = async (qId) => {
     while (true) {
@@ -181,6 +163,11 @@ class questionPage extends Component {
 
     let data = await response.json();
 
+    if(qId>= 2){
+      document.getElementById("backbtn").hidden = false
+    } else{
+      document.getElementById("backbtn").hidden = true
+    }
 
     if (data.data.kysymysid.length === 0) {
       this.props.updateAnnetutVastaukset(this.state.AnnetutVastaukset, this.props.history);
@@ -244,7 +231,7 @@ class questionPage extends Component {
   render() {
       let VastausList = () =>
       Array.from(this.state.Vastaukset).map((e, idx) => {
-        return <div><div className="radiotest"><input type="radio" name="radioinput" id={idx} className="radiocss" onChange={this.handleChange} onClick={() => {this.buttonClicked(e.VastausID, e.JatkokysymysID)}}/><label htmlFor={idx}>{e.VastausTXT}</label></div></div>
+        return <div><div className="radiotest"><input type="radio" name="radioinput" id={idx} className="radiocss" onChange={this.handleChange} onClick={() => {this.buttonClicked(e.VastausID, e.JatkokysymysID)}}/>&nbsp;&nbsp;<label htmlFor={idx}>{e.VastausTXT}</label></div></div>
       });
     return (
       <div className="container">
