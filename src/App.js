@@ -19,12 +19,13 @@ class App extends Component {
     this.setState({
       AnnetutVastaukset: annVas
     })
-    history.push("/summarypage");
-    this.summaryref.getListOfSummaries();
+    history.push("/summarypage"+'?'+annVas.join('+'));
   }
-  
 
   render() {
+
+    let summaryPage = () => <SummaryPage annetutVastaukset={this.state.AnnetutVastaukset}/>    
+    
     return (
       <div>
         <Router>
@@ -33,9 +34,7 @@ class App extends Component {
             <Route path="/questionpage" render = {props => (
               <QuestionPage updateAnnetutVastaukset={this.updateAnnetutVastaukset}/>
             )} />
-            <Route path="/summarypage" render = {props => (
-              <SummaryPage ref={summaryref => {this.summaryref = summaryref}} annetutVastaukset={this.state.AnnetutVastaukset}/>
-            )} />
+            <Route path="/summarypage" component={summaryPage} />
             <Route path="/errorpage" component={ErrorPage} />
           </div>
         </Router>

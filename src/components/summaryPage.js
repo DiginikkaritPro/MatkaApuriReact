@@ -14,24 +14,23 @@ class summaryPage extends Component {
       Otsikko: [],
       InfoTXT: [],
       Linkki: [],
-      Muistilista: []
+      
     };
   }
-  //Haetaan vastausidt yhteenvetoa varten (tuotu propseina App.js statesta)
+  componentWillMount() {
+    this.getListOfSummaries();
+  }
+  //Haetaan vastausidt yhteenvetoa varten (tuotu parsettuna URL locationa)
   getListOfSummaries = async () => {
-    let vastausId = this.props.annetutVastaukset;
-    let muistilista = 'https://www.ostettudomain.fi/'+(this.props.annetutVastaukset).join('+')
-    console.log(muistilista)
-    //console.log(this.props.location)
-    //console.log(this.props.location.search)
+    const parsedUrl = new URL(window.location.href);
+    const vastausId = parsedUrl.search.replace('?', '').split('+');
+
     for (let i = 0; i < vastausId.length; i++) {
       let id = vastausId[i];
       
       await this.getSummary(id);
     }
-    this.setState({
-      Muistilista: muistilista
-    })
+    
   };
 
   headerClicked = (idx) =>{
@@ -172,9 +171,13 @@ class summaryPage extends Component {
                 <div className="col-lg">
                   <div className="card">
                   <Header />
+                  <h2>Muistilista:</h2>
                   {Yhteenveto()}
                     {/* card-body */}
-                  {this.state.Muistilista}
+                  <div className="muistilista">
+                  <p>Tästä linkistä saat muistilistasi talteen:</p>
+                  <a rel="noopener noreferrer" target="_blank" className="muistilistalink" href={window.location.href}>{window.location.href}</a> 
+                  </div>
                   <Footer />
                   
                   </div>

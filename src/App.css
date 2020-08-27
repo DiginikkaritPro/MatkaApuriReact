@@ -209,3 +209,23 @@ a:hover{
 .bi-info-circle {
   color: rgb(225,0,105);
 }
+
+.muistilista {
+  text-align: center;
+  line-height: 22px;
+  font-size: 16px;
+  font-family: "Open Sans";
+  color: black;
+}
+
+.muistilistalink {
+  text-align: center;
+  line-height: 22px;
+  font-size: 16px;
+  font-family: "Open Sans";
+  color: rgb(0,175,215);
+}
+
+.muistilistalink:hover {
+  color: rgb(225,0,105);
+}
