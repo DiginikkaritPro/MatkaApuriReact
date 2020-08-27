@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Header from "./header";
 import Footer from './footer';
+
 import {
   getSummaryId,
   GRAPHQL_SERVER_URL,
@@ -21,7 +22,8 @@ class summaryPage extends Component {
     let vastausId = this.props.annetutVastaukset;
     let muistilista = 'https://www.ostettudomain.fi/'+(this.props.annetutVastaukset).join('+')
     console.log(muistilista)
-    
+    //console.log(this.props.location)
+    //console.log(this.props.location.search)
     for (let i = 0; i < vastausId.length; i++) {
       let id = vastausId[i];
       
@@ -34,7 +36,7 @@ class summaryPage extends Component {
 
   headerClicked = (idx) =>{
     let id = `hideableElement${idx}`;
-    let id2 = `span${idx}`;
+    
     if (document.getElementById(id).hidden) {
       document.getElementById(id).hidden = false;
       
@@ -136,7 +138,7 @@ class summaryPage extends Component {
           });
         return (
           <div className="card-body elementBorder" >
-          <p className="summaryHeader" onClick={() => {this.hideOrShowArrow(idx)}}>
+          <div className="summaryHeader" onClick={() => {this.hideOrShowArrow(idx)}}>
           {e}&nbsp;&nbsp; 
           <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-chevron-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <g id={'icon1_' + idx} visibility='visible'>
@@ -148,7 +150,7 @@ class summaryPage extends Component {
               <path fillRule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
             </g>
           </svg>
-          </p>
+          </div>
           <br/>
           <p className="card-text" hidden={true} id={`hideableElement${idx}`}>
           <div className="summaryInfoTxt">

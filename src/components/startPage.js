@@ -10,8 +10,9 @@ class startPage extends Component {
           <div className="col-sm"></div>
           <div className="col-lg">
             <div className="card startpage">
+            <Header />
               <div className="card-body">
-                <Header />
+                
                 <p className="card-text textStyleStartPage">
                 <div> Tervetuloa Matka-apuriin! &nbsp;&nbsp;
                   <a data-toggle="modal" href="#myModal">

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import "./App.css";
+import './MediaQueries.css';
 import ErrorPage from './components/errorPage'
 import StartPage from './components/startPage'
 import SummaryPage from './components/summaryPage'
@@ -21,6 +22,7 @@ class App extends Component {
     history.push("/summarypage");
     this.summaryref.getListOfSummaries();
   }
+  
 
   render() {
     return (
