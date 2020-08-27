@@ -12,17 +12,24 @@ class summaryPage extends Component {
     this.state = {
       Otsikko: [],
       InfoTXT: [],
-      Linkki: []
+      Linkki: [],
+      Muistilista: []
     };
   }
   //Haetaan vastausidt yhteenvetoa varten (tuotu propseina App.js statesta)
   getListOfSummaries = async () => {
     let vastausId = this.props.annetutVastaukset;
-
+    let muistilista = 'https://www.ostettudomain.fi/'+(this.props.annetutVastaukset).join('+')
+    console.log(muistilista)
+    
     for (let i = 0; i < vastausId.length; i++) {
       let id = vastausId[i];
+      
       await this.getSummary(id);
     }
+    this.setState({
+      Muistilista: muistilista
+    })
   };
 
   headerClicked = (idx) =>{
@@ -165,7 +172,7 @@ class summaryPage extends Component {
                   <Header />
                   {Yhteenveto()}
                     {/* card-body */}
-                  
+                  {this.state.Muistilista}
                   <Footer />
                   
                   </div>

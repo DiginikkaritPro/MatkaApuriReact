@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from 'react-router-dom';
 import Header from "./header";
+import Footer from './footer';
 import {GRAPHQL_SERVER_URL, convertQuestionId} from '../functions/DatabaseHandlingFunctions'
 import {getLastQuestionId, getLastAnswerId, getLastFollowUpQuestionId, insertNewQuestion} from '../functions/ClientFunctions'
 
@@ -50,7 +51,7 @@ class questionPage extends Component {
   //Vastausvaihtoehdon valinta funktio
   buttonClicked = (VastausID, JatkokysymysID) => {
     this.state.AnnetutVastaukset.push(VastausID);
-    console.log(this.state.AnnetutVastaukset);
+    
     if (JatkokysymysID) {
           this.askFollowUpQuestion(JatkokysymysID);  
     } else {
@@ -108,6 +109,7 @@ class questionPage extends Component {
           qId = this.state.questionId;
           // Jatketaan fetchiin.
         } else {
+          //console.log(this.state.AnnetutVastaukset)
           this.props.updateAnnetutVastaukset(this.state.AnnetutVastaukset, this.props.history);
           return;
         }
@@ -254,6 +256,7 @@ class questionPage extends Component {
                   </div>
                 </p>
               </div>{" "}
+              <Footer/>
               {/* card-body */}
             </div>{" "}
             {/* card */}
