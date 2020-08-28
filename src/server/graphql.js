@@ -32,6 +32,9 @@ const typeDefs = gql`
 
   type Mutation {
     luokysymys(KysymysID: String!, KysymysTXT: String!, KysymysINFO: String): Kysymys
+    luovastaukset(KysymysID: String!, VastausID: String!, VastausTXT: String!): Vastaus
+    luoyhteenveto(YhteenvetoID: String!, VastausID: String!): Yhteenveto
+    luoinfo(YhteenvetoID: String!, Otsikko: String!, InfoTXT: String!, Linkki: String!): Info
   }
 
   type Info {
@@ -108,9 +111,45 @@ const resolvers = {
         KysymysINFO: args.KysymysINFO
       }
       const collectionName = 'Kysymys';
-      let res = await db.collection(collectionName).insertOne(kysymysObj)
-      console.log(res)
+      await db.collection(collectionName).insertOne(kysymysObj)
+      
       return kysymysObj
+    },
+
+    luovastaukset: async (parent, args) => {
+      const vastausObj = {
+        KysymysID: args.KysymysID,
+        VastausID: args.VastausID,
+        VastausTXT: args.VastausTXT
+      }
+      const collectionName = 'Vastaukset';
+      await db.collection(collectionName).insertOne(vastausObj)
+      
+      return vastausObj
+    },
+
+    luoyhteenveto: async (parent, args) => {
+      const yhteenvetoObj = {
+        YhteenvetoID: args.YhteenvetoID,
+        VastausID: args.VastausID
+      }
+      const collectionName = 'Yhteenveto';
+      await db.collection(collectionName).insertOne(yhteenvetoObj)
+      
+      return yhteenvetoObj
+    },
+
+    luoinfo: async (parent, args) => {
+      const infoObj = {
+        YhteenvetoID: args.YhteenvetoID,
+        Otsikko: args.Otsikko,
+        InfoTXT: args.InfoTXT,
+        Linkki: args.Linkki
+      }
+      const collectionName = 'Info';
+      await db.collection(collectionName).insertOne(infoObj)
+      
+      return infoObj
     }
   },
   Query: {

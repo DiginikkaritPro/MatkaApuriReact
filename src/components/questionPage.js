@@ -1,10 +1,19 @@
 import React, { Component } from "react";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 import Header from "./header";
-import Footer from './footer';
-import {GRAPHQL_SERVER_URL, convertQuestionId} from '../functions/DatabaseHandlingFunctions'
-import {getLastQuestionId, getLastAnswerId, getLastFollowUpQuestionId, insertNewQuestion} from '../functions/ClientFunctions'
-
+import Footer from "./footer";
+import {
+  GRAPHQL_SERVER_URL,
+  convertQuestionId,
+} from "../functions/DatabaseHandlingFunctions";
+import {
+  getLastQuestionId,
+  getLastAnswerId,
+  getLastFollowUpQuestionId,
+  insertNewQuestion,
+  insertNewAnswers,
+  insertNewSummary,
+} from "../functions/ClientFunctions";
 
 class questionPage extends Component {
   constructor(props) {
@@ -17,15 +26,18 @@ class questionPage extends Component {
       AnnetutVastaukset: [],
     };
   }
-  KysymysIDHistoria = []
-  componentDidMount() {
+  KysymysIDHistoria = [];
+  
+  componentDidMount = async () => {
     this.getQidLength();
-    //getLastQuestionId();
-    //getLastAnswerId();
+   // let newQid = await getLastQuestionId();
+   // let newAid = await getLastAnswerId();
     //getLastFollowUpQuestionId();
-    //insertNewQuestion();
+   // insertNewQuestion(newQid);
+   // insertNewAnswers(newAid, newQid); //Vastauksen lisääminen
+   // insertNewSummary(newAid);
     this.askQuestion(this.state.questionId);
-  }
+  };
   //Haetaan kysymystaulun pituus stateen
   getQidLength = async () => {
     let response = await fetch(GRAPHQL_SERVER_URL, {
@@ -43,17 +55,17 @@ class questionPage extends Component {
       }),
     });
     let data = await response.json();
-    
+
     this.setState({
-      questionIdLength: data.data.kysymys.length
-    })
-  }
+      questionIdLength: data.data.kysymys.length,
+    });
+  };
   //Vastausvaihtoehdon valinta funktio
   buttonClicked = (VastausID, JatkokysymysID) => {
     this.state.AnnetutVastaukset.push(VastausID);
-    
+
     if (JatkokysymysID) {
-          this.askFollowUpQuestion(JatkokysymysID);  
+      this.askFollowUpQuestion(JatkokysymysID);
     } else {
       this.setState(
         {
@@ -64,7 +76,6 @@ class questionPage extends Component {
         }
       );
     }
-      
   };
 
   //Kysymys silmukka jota toistetaan niin kauan kunnes ollaan ajettu kysymysten length loppuun
@@ -97,10 +108,10 @@ class questionPage extends Component {
 
       let data = await response.json();
 
-      if(this.state.questionId >= 2){
-        document.getElementById("backbtn").hidden = false
-      } else{
-        document.getElementById("backbtn").hidden = true
+      if (this.state.questionId >= 2) {
+        document.getElementById("backbtn").hidden = false;
+      } else {
+        document.getElementById("backbtn").hidden = true;
       }
 
       if (data.data.kysymysid.length === 0) {
@@ -110,21 +121,27 @@ class questionPage extends Component {
           // Jatketaan fetchiin.
         } else {
           //console.log(this.state.AnnetutVastaukset)
-          this.props.updateAnnetutVastaukset(this.state.AnnetutVastaukset, this.props.history);
+          this.props.updateAnnetutVastaukset(
+            this.state.AnnetutVastaukset,
+            this.props.history
+          );
           return;
         }
-        
       } else {
         let question = data.data.kysymysid[0];
         let kysymysTXT = question.KysymysTXT;
         let stateArray = [];
 
-        this.KysymysIDHistoria.push(qId)
-        
+        this.KysymysIDHistoria.push(qId);
+
         for (let i = 0; i < data.data.vastausid.length; i++) {
           let answer = data.data.vastausid[i];
           stateArray.push(answer);
         }
+
+        stateArray = stateArray.sort((a, b) => {
+          return parseInt(a.VastausID) - parseInt(b.VastausID);
+        });
 
         this.setState({
           KysymysTXT: kysymysTXT,
@@ -165,25 +182,30 @@ class questionPage extends Component {
 
     let data = await response.json();
 
-    if(qId>= 2){
-      document.getElementById("backbtn").hidden = false
-    } else{
-      document.getElementById("backbtn").hidden = true
+    if (qId >= 2) {
+      document.getElementById("backbtn").hidden = false;
+    } else {
+      document.getElementById("backbtn").hidden = true;
     }
 
     if (data.data.kysymysid.length === 0) {
-      this.props.updateAnnetutVastaukset(this.state.AnnetutVastaukset, this.props.history);
+      this.props.updateAnnetutVastaukset(
+        this.state.AnnetutVastaukset,
+        this.props.history
+      );
     } else {
       let question = data.data.kysymysid[0];
       let kysymysTXT = question.KysymysTXT;
       let stateArrayJatko = [];
-      
-      this.KysymysIDHistoria.push(-jatkokysymysId)
+
+      this.KysymysIDHistoria.push(-jatkokysymysId);
       for (let i = 0; i < data.data.vastausid.length; i++) {
         let answer = data.data.vastausid[i];
         stateArrayJatko.push(answer);
       }
-
+      stateArrayJatko = stateArrayJatko.sort((a, b) => {
+        return parseInt(a.VastausID) - parseInt(b.VastausID);
+      });
       this.setState({
         KysymysTXT: kysymysTXT,
         Vastaukset: stateArrayJatko,
@@ -192,48 +214,67 @@ class questionPage extends Component {
   };
   //Toiminnalisuus funktio "Palaa takaisin" napille
   prevQuestion = () => {
-    if(this.KysymysIDHistoria.length === 0){
-      alert('Ei kysymyksiä')
-      return
+    if (this.KysymysIDHistoria.length === 0) {
+      alert("Ei kysymyksiä");
+      return;
     }
-    if(this.KysymysIDHistoria.length === 1){
-      alert('Ei ole edellistä kysymystä')
-      return
+    if (this.KysymysIDHistoria.length === 1) {
+      alert("Ei ole edellistä kysymystä");
+      return;
     }
-    if(this.KysymysIDHistoria.length >= 2){
-      this.KysymysIDHistoria.pop()
-      var kId = this.KysymysIDHistoria.pop()
-      this.state.AnnetutVastaukset.pop()
-     
-      
-      if (kId < 0){
-        this.setState({
-          questionId: this.state.questionId-1,
-          AnnetutVastaukset: this.state.AnnetutVastaukset
-        }, () => {
-          this.askFollowUpQuestion(-kId)
-        }) 
+    if (this.KysymysIDHistoria.length >= 2) {
+      this.KysymysIDHistoria.pop();
+      var kId = this.KysymysIDHistoria.pop();
+      this.state.AnnetutVastaukset.pop();
+
+      if (kId < 0) {
+        this.setState(
+          {
+            questionId: this.state.questionId - 1,
+            AnnetutVastaukset: this.state.AnnetutVastaukset,
+          },
+          () => {
+            this.askFollowUpQuestion(-kId);
+          }
+        );
+      } else {
+        this.setState(
+          {
+            questionId: this.state.questionId - 1,
+            AnnetutVastaukset: this.state.AnnetutVastaukset,
+          },
+          () => {
+            this.askQuestion(kId);
+          }
+        );
       }
-      else{
-        this.setState({
-          questionId: this.state.questionId-1,
-          AnnetutVastaukset: this.state.AnnetutVastaukset
-        }, () => {
-          this.askQuestion(kId)
-        })
-      }
     }
-    
-  }
+  };
 
   handleChange = (e) => {
-    e.target.checked = false
-  }
+    e.target.checked = false;
+  };
   //Reactin render metodi jossa mapataan Vastaukset arraystä vastaukset radionappeihin indexin perusteella
   render() {
-      let VastausList = () =>
+    let VastausList = () =>
       Array.from(this.state.Vastaukset).map((e, idx) => {
-        return <div><div className="radiotest"><input type="radio" name="radioinput" id={idx} className="radiocss" onChange={this.handleChange} onClick={() => {this.buttonClicked(e.VastausID, e.JatkokysymysID)}}/>&nbsp;&nbsp;<label htmlFor={idx}>{e.VastausTXT}</label></div></div>
+        return (
+          <div>
+            <div className="radiotest">
+              <input
+                type="radio"
+                name="radioinput"
+                id={idx}
+                className="radiocss"
+                onChange={this.handleChange}
+                onClick={() => {
+                  this.buttonClicked(e.VastausID, e.JatkokysymysID);
+                }}
+              />
+              &nbsp;&nbsp;<label htmlFor={idx}>{e.VastausTXT}</label>
+            </div>
+          </div>
+        );
       });
     return (
       <div className="container">
@@ -243,7 +284,15 @@ class questionPage extends Component {
             <div className="card">
               <Header />
               <div className="card-body">
-                <button id="backbtn" hidden={true} className="btn btn-link" onClick={this.prevQuestion}> {"<- Palaa edelliseen"} </button>
+                <button
+                  id="backbtn"
+                  hidden={true}
+                  className="btn btn-link"
+                  onClick={this.prevQuestion}
+                >
+                  {" "}
+                  {"<- Palaa edelliseen"}{" "}
+                </button>
                 <br />
                 <br />
                 <p className="card-text">
@@ -251,12 +300,12 @@ class questionPage extends Component {
                   <br />
                   <br />
                   <div className="btn-group-vertical">
-                  {/* radios  */}
-                  {VastausList()}
+                    {/* radios  */}
+                    {VastausList()}
                   </div>
                 </p>
               </div>{" "}
-              <Footer/>
+              <Footer />
               {/* card-body */}
             </div>{" "}
             {/* card */}

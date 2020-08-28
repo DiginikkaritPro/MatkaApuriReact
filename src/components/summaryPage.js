@@ -91,8 +91,10 @@ class summaryPage extends Component {
 
     let data = await response.json();
 
-    if (data.data == null || data.data.yhteenvetostack.length === 0) {
+    //Mahdollinen errorcheck sitä varten jos yhteenvetoa ei ole?
+    if (data.data == null || data.data.yhteenvetostack == null || data.data.yhteenvetostack.length === 0) {
       alert('Tietokanta viallinen tai tietokantayhteys katkennut')
+    
     } else {
       let Otsikko = "";
       let InfoTXT = "";
