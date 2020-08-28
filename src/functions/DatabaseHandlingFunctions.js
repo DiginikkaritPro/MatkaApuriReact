@@ -1,5 +1,5 @@
-//Api rajapinnan URL
-const GRAPHQL_SERVER_URL = 'http://localhost:3000/api/graphql';
+//Api rajapinnan URL täytyy olla kyseisen koneen local ipv4 osoite
+const GRAPHQL_SERVER_URL = 'http://10.78.161.237:3000/api/graphql';
 
 //YhteenvetoIDn haku funktio vastausidn perusteella
 let getSummaryId = async (vastausId) => {
