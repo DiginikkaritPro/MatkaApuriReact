@@ -260,6 +260,9 @@ class questionPage extends Component {
       Array.from(this.state.Vastaukset).map((e, idx) => {
         return (
           <div>
+            <form className="answersBox" onClick={() => {
+                  this.buttonClicked(e.VastausID, e.JatkokysymysID);
+                }}>
             <div className="radiotest">
               <input
                 type="radio"
@@ -267,12 +270,10 @@ class questionPage extends Component {
                 id={idx}
                 className="radiocss"
                 onChange={this.handleChange}
-                onClick={() => {
-                  this.buttonClicked(e.VastausID, e.JatkokysymysID);
-                }}
               />
               &nbsp;&nbsp;<label htmlFor={idx}>{e.VastausTXT}</label>
             </div>
+            </form>
           </div>
         );
       });
@@ -299,10 +300,12 @@ class questionPage extends Component {
                   {this.state.KysymysTXT}
                   <br />
                   <br />
+                  
                   <div className="btn-group-vertical">
                     {/* radios  */}
                     {VastausList()}
                   </div>
+                  
                 </p>
               </div>{" "}
               <Footer />

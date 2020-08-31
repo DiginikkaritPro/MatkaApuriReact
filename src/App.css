@@ -226,6 +226,18 @@ a:hover{
   color: rgb(0,175,215);
 }
 
-.muistilistalink:hover {
-  color: rgb(225,0,105);
+.answersBox {
+  position: relative;
+  border: solid;
+  border-width: 1px;
+  height: auto;
+  margin: 2px;
+  width: 200px;
+  overflow: hidden;
+  text-align: left;
+  padding-left: 25px;
+}
+
+.answersBox:hover {
+  background-color: rgb(225,0,105);
 }

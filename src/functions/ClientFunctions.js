@@ -122,7 +122,15 @@ let insertNewQuestion = async (parseData) => {
   console.log(data);
 };
 
-let insertNewAnswers = async (parseData, parseData1) => {
+let onClickFunktio = () => {
+  //setState n-muuttujalle (n++)
+  //Callback ennen funktiota?
+  //insertNewAnswers(parseData, parseData1, this.state.n)
+  //insertNewSummary(parseData, this.state.n)
+}
+
+//n-muuttuja esim luokan stateen? onClick funktiolla kutsutaan uutta insertNewAnswers funktiota jolle annetaan statesta parametrinä n-arvo
+let insertNewAnswers = async (parseData, parseData1, /*this.state.n*/) => {
   let newAid = parseData.toString();
   let newQid = parseData1.toString();
   let res = await fetch(GRAPHQL_SERVER_URL, {
@@ -140,13 +148,16 @@ let insertNewAnswers = async (parseData, parseData1) => {
             }
           }`,
       variables: { vid: newAid, kid: newQid, txt: "Testivastaus" },
+      //Näille vastaus 'txt' muuttujille pitää tuoda joltain tekstikentältä arvo
+      //Vastauksia pitää myös pystyä luomaan dynaamisesti
     }),
   });
-  let data = await res.json();
-  console.log(data);
+  await res.json();
+  
 };
 
-let insertNewSummary = async (parseData) => {
+//tänne sama n-muuttuja ja luodaan uusi summary kenttä
+let insertNewSummary = async (parseData, /*this.state.n*/ ) => {
   let newAid = parseData.toString();
 
   let res = await fetch(GRAPHQL_SERVER_URL, {
