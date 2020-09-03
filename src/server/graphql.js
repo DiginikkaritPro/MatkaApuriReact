@@ -16,13 +16,13 @@ const typeDefs = gql`
     info: [Info]
     infoid(YhteenvetoID: String!): [Info]
     jatkokysymys: [Kysymys]
-    jatkokysymyslastid: [Kysymys]
+    jatkokysymyslastid: [Int]
     jatkokysymysid(JatkokysymysID: String!): [Kysymys]
     kysymys: [Kysymys]
-    kysymyslastid: [Kysymys]
+    kysymyslastid: [Int]
     kysymysid(KysymysID: String!): [Kysymys]
     vastaus: [Vastaus]
-    vastauslastid: [Vastaus]
+    vastauslastid: [Int]
     vastausid(KysymysID: String!): [Vastaus]
     yhteenveto: [Yhteenveto]
     yhteenvetoid(VastausID: String!): [Yhteenveto]
@@ -179,10 +179,17 @@ const resolvers = {
     },
 
     jatkokysymyslastid: async () => {
-      let jatkokysymykset = await arrayQuery("Kysymys");
+      let kysymykset = await arrayQuery("Kysymys");
+      let id = 0;
+      kysymykset.forEach(kys => {
+        if (kys.JatkokysymysID) {
+          if (parseInt(kys.JatkokysymysID) > id) {
+            id = parseInt(kys.JatkokysymysID);
+          }
+        }
+      })
 
-      let viimJKys = jatkokysymykset[jatkokysymykset.length -1]
-      return [viimJKys]
+      return [id]
     },
 
     jatkokysymysid: async (parent, args, context, info) => {
@@ -195,9 +202,14 @@ const resolvers = {
 
     kysymyslastid: async () => {
       let kysymykset = await arrayQuery("Kysymys");
+      let id = 0;
+      kysymykset.forEach(kys => {
+        if (parseInt(kys.KysymysID) > id) {
+          id = parseInt(kys.KysymysID);
+        }
+      })
 
-      let viimKys = kysymykset[kysymykset.length -1]
-      return [viimKys]
+      return [id]
     },
 
     kysymysid: async (parent, args, context, info) => {
@@ -210,9 +222,14 @@ const resolvers = {
 
     vastauslastid: async () => {
       let vastaukset = await arrayQuery("Vastaukset");
+      let id = 0;
+      vastaukset.forEach(vas => {
+        if (parseInt(vas.VastausID) > id) {
+          id = parseInt(vas.VastausID);
+        }
+      })
 
-      let viimVas = vastaukset[vastaukset.length -1]
-      return [viimVas]
+      return [id]
     },
 
     vastausid: async (parent, args, context, info) => {
