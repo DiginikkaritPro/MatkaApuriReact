@@ -190,8 +190,7 @@ let insertNewSummary = async (parseData, /*this.state.n*/ ) => {
       },
     }),
   });
-  let data = await res.json();
-  console.log(data);
+  await res.json();
 };
 
 export {

@@ -280,8 +280,8 @@ class questionPage extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-sm"></div>
-          <div className="col-lg">
+          <div className="col-sm-3"></div>
+          <div className="col-lg-6">
             <div className="card">
               <Header />
               <div className="card-body">
@@ -314,7 +314,7 @@ class questionPage extends Component {
             {/* card */}
           </div>{" "}
           {/* col */}
-          <div className="col-sm"></div>
+          <div className="col-sm-3"></div>
         </div>{" "}
         {/* row */}
       </div>

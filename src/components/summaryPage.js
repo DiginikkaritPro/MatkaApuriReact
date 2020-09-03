@@ -169,8 +169,8 @@ class summaryPage extends Component {
       <div>
             <div className="container">
               <div className="row">
-                <div className="col-sm"></div>
-                <div className="col-lg">
+                <div className="col-sm-3"></div>
+                <div className="col-lg-6">
                   <div className="card">
                   <Header />
                   <h2>Muistilista:</h2>
@@ -186,7 +186,7 @@ class summaryPage extends Component {
                   {/* card */}
                 </div>
                 {/* col */}
-                <div className="col-sm"></div>
+                <div className="col-sm-3"></div>
               </div>
               {/* row */}
 

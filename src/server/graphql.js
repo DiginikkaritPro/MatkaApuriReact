@@ -35,6 +35,7 @@ const typeDefs = gql`
     luovastaukset(KysymysID: String!, VastausID: String!, VastausTXT: String!): Vastaus
     luoyhteenveto(YhteenvetoID: String!, VastausID: String!): Yhteenveto
     luoinfo(YhteenvetoID: String!, Otsikko: String!, InfoTXT: String!, Linkki: String!): Info
+    luojatkokysymys(KysymysID: String!, JatkokysymysID: String!, KysymysTXT: String!, KysymysINFO: String): Kysymys
   }
 
   type Info {
@@ -116,6 +117,18 @@ const resolvers = {
       return kysymysObj
     },
 
+    luojatkokysymys: async (parent, args) => {
+      const jatkoKysymysObj = {
+        KysymysID: args.KysymysID,
+        KysymysTXT: args.KysymysTXT,
+        KysymysINFO: args.KysymysINFO,
+        JatkokysymysID: args.JatkokysymysID
+      }
+      const collectionName = 'Kysymys';
+      await db.collection(collectionName).insertOne(jatkoKysymysObj)
+
+      return jatkoKysymysObj
+    },
     luovastaukset: async (parent, args) => {
       const vastausObj = {
         KysymysID: args.KysymysID,
