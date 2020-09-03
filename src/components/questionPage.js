@@ -6,14 +6,7 @@ import {
   GRAPHQL_SERVER_URL,
   convertQuestionId,
 } from "../functions/DatabaseHandlingFunctions";
-import {
-  getLastQuestionId,
-  getLastAnswerId,
-  getLastFollowUpQuestionId,
-  insertNewQuestion,
-  insertNewAnswers,
-  insertNewSummary,
-} from "../functions/ClientFunctions";
+
 
 class questionPage extends Component {
   constructor(props) {
@@ -30,12 +23,6 @@ class questionPage extends Component {
   
   componentDidMount = async () => {
     this.getQidLength();
-   // let newQid = await getLastQuestionId();
-   // let newAid = await getLastAnswerId();
-    //getLastFollowUpQuestionId();
-   // insertNewQuestion(newQid);
-   // insertNewAnswers(newAid, newQid); //Vastauksen lisääminen
-   // insertNewSummary(newAid);
     this.askQuestion(this.state.questionId);
   };
   //Haetaan kysymystaulun pituus stateen

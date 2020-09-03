@@ -122,12 +122,6 @@ let insertNewQuestion = async (parseData) => {
   console.log(data);
 };
 
-let onClickFunktio = () => {
-  //setState n-muuttujalle (n++)
-  //Callback ennen funktiota?
-  //insertNewAnswers(parseData, parseData1, this.state.n)
-  //insertNewSummary(parseData, this.state.n)
-}
 
 //n-muuttuja esim luokan stateen? onClick funktiolla kutsutaan uutta insertNewAnswers funktiota jolle annetaan statesta parametrinä n-arvo
 let insertNewAnswers = async (parseData, parseData1, /*this.state.n*/) => {

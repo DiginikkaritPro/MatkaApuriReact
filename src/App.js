@@ -19,7 +19,7 @@ class App extends Component {
     this.setState({
       AnnetutVastaukset: annVas
     })
-    history.push("/summarypage"+'?'+annVas.join('+'));
+    history.push("/summarypage?"+annVas.join('+'));
   }
 
   render() {
