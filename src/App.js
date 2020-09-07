@@ -16,15 +16,15 @@ class App extends Component {
   }
   
   updateAnnetutVastaukset = (annVas, history) => {
-    this.setState({
-      AnnetutVastaukset: annVas
-    })
+     this.setState({
+       AnnetutVastaukset: annVas
+     })
     history.push("/summarypage?"+annVas.join('+'));
   }
 
   render() {
-
-    let summaryPage = () => <SummaryPage annetutVastaukset={this.state.AnnetutVastaukset}/>    
+//annetutVastaukset={this.state.AnnetutVastaukset}
+    let summaryPage = () => <SummaryPage />    
     
     return (
       <div>

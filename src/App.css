@@ -228,15 +228,24 @@ a:hover{
 
 .answersBox {
   position: relative;
-  border-width: 1px;
+  border: none;
   height: auto;
   margin: 2px;
   width: 200px;
   overflow: hidden;
   text-align: left;
   padding-left: 25px;
+  background-color: white;
+  border-style: solid;
+  border-color: white;
 }
 
 .answersBox:hover {
-  background-color: rgb(225,0,105);
+  /* background-color: rgb(225,0,105); */
+  border-style: solid;
+  border-color: rgb(225,0,105);
+}
+
+.answersBox:focus {
+  border: none
 }

@@ -8,6 +8,7 @@ import {
 } from "../functions/DatabaseHandlingFunctions";
 
 
+
 class questionPage extends Component {
   constructor(props) {
     super(props);
@@ -49,10 +50,12 @@ class questionPage extends Component {
   };
   //Vastausvaihtoehdon valinta funktio
   buttonClicked = (VastausID, JatkokysymysID) => {
+    
     this.state.AnnetutVastaukset.push(VastausID);
 
     if (JatkokysymysID) {
       this.askFollowUpQuestion(JatkokysymysID);
+      
     } else {
       this.setState(
         {
@@ -60,6 +63,7 @@ class questionPage extends Component {
         },
         () => {
           this.askQuestion(this.state.questionId);
+          
         }
       );
     }
@@ -239,7 +243,7 @@ class questionPage extends Component {
   };
 
   handleChange = (e) => {
-    e.target.checked = false;
+    e.preventDefault()
   };
   //Reactin render metodi jossa mapataan Vastaukset arraystä vastaukset radionappeihin indexin perusteella
   render() {
@@ -247,20 +251,12 @@ class questionPage extends Component {
       Array.from(this.state.Vastaukset).map((e, idx) => {
         return (
           <div>
-            <form className="answersBox" onClick={() => {
+            <button id={idx} type="button" className="answersBox" onChange={() => this.handleChange(e)} onClick={() => {
                   this.buttonClicked(e.VastausID, e.JatkokysymysID);
                 }}>
-            <div className="radiotest">
-              <input
-                type="radio"
-                name="radioinput"
-                id={idx}
-                className="radiocss"
-                onChange={this.handleChange}
-              />
-              &nbsp;&nbsp;<label htmlFor={idx}>{e.VastausTXT}</label>
-            </div>
-            </form>
+                 <img height="25" width="25" src={require('../pic/oulu_logo_button.png')} alt=""/> {e.VastausTXT}
+         
+            </button>
           </div>
         );
       });
@@ -288,7 +284,7 @@ class questionPage extends Component {
                   <br />
                   <br />
                   
-                  <div className="btn-group-vertical">
+                  <div>
                     {/* radios  */}
                     {VastausList()}
                   </div>
