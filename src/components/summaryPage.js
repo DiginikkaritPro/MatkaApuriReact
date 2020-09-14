@@ -3,7 +3,6 @@ import Header from "./header";
 import Footer from './footer';
 
 import {
-  getSummaryId,
   GRAPHQL_SERVER_URL,
 } from "../functions/DatabaseHandlingFunctions";
 
@@ -69,7 +68,8 @@ class summaryPage extends Component {
 
   //Tulostetaan yhteenveto hakemalla yhteenvetoidt getSummaryId funktiolla
   getSummary = async (vastausId) => {
-    let yhteenvetoId = await getSummaryId(vastausId);
+    let yhteenvetoId = vastausId 
+    //await getSummaryId(vastausId);
 
     let response = await fetch(GRAPHQL_SERVER_URL, {
       method: "POST",
